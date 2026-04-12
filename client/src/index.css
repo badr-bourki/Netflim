@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #141414;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@layer utilities {
+  @keyframes netflim-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes netflim-toast-in {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes netflim-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes netflim-kenburns {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.06);
+    }
+  }
+
+  .netflim-page-fade {
+    animation: netflim-fade-in 420ms ease-out both;
+  }
+
+  .netflim-toast-in {
+    animation: netflim-toast-in 260ms ease-out both;
+  }
+
+  .netflim-skeleton {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+    background-size: 200% 100%;
+    animation: netflim-shimmer 1.2s linear infinite;
+  }
+
+  .netflim-kenburns {
+    animation: netflim-kenburns 7.5s ease-out both;
+  }
+}
+
+@layer components {
+  .netflim-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded px-4 py-2 text-sm font-semibold transition-transform duration-150 active:scale-[0.98];
+  }
+
+  .netflim-btn-primary {
+    @apply netflim-btn bg-netflim-red text-white hover:brightness-110;
+  }
+
+  .netflim-btn-secondary {
+    @apply netflim-btn bg-white/15 text-white hover:bg-white/20;
+  }
+
+  .netflim-glass {
+    @apply border border-white/10 bg-black/40 backdrop-blur;
+  }
+}
+
+/* Prevent horizontal scroll from rows */
+#root {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

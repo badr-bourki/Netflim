@@ -24,8 +24,8 @@ const env = {
 }
 
 const assertEnv = () => {
-  required(env.TMDB_API_KEY, 'TMDB_API_KEY')
-  // DB + subtitles creds are optional for boot (endpoints will degrade gracefully)
+  // TMDB key, DB and subtitles creds are optional for boot.
+  // Routes can degrade gracefully with local mock data in development.
 }
 
 module.exports = { env, assertEnv }

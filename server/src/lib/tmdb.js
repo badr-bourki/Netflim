@@ -25,6 +25,12 @@ const makeKey = (path, params) => {
 }
 
 const tmdbGet = async (path, params = {}, { cache = true } = {}) => {
+  if (!env.TMDB_API_KEY) {
+    const error = new Error('TMDB_API_KEY is not configured')
+    error.status = 503
+    throw error
+  }
+
   const normalizedParams = {
     ...params,
     api_key: env.TMDB_API_KEY,

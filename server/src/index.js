@@ -9,6 +9,11 @@ let httpServer
 const start = async () => {
   assertEnv()
 
+  if (!env.TMDB_API_KEY) {
+    // eslint-disable-next-line no-console
+    console.warn('TMDB_API_KEY not set: /api/trending,/movies,/tv,/search will use mock fallback data.')
+  }
+
   if (env.MONGODB_URI) {
     await mongoose.connect(env.MONGODB_URI)
   } else {

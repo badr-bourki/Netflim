@@ -16,6 +16,7 @@ function navClass(isActive: boolean) {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const navigate = useNavigate()
+  const [logoFailed, setLogoFailed] = useState(false)
 
   const user = useAppStore((s) => s.auth.user)
   const logout = useAppStore((s) => s.logout)
@@ -72,7 +73,16 @@ export function Navbar() {
           onClick={() => navigate('/')}
           aria-label="Go to home"
         >
-          <span className="transition-transform duration-300 group-hover:scale-[1.02]">NETFLIM</span>
+          {!logoFailed ? (
+            <img
+              src="/netflim-logo.png"
+              alt="NETFLIM"
+              className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+              onError={() => setLogoFailed(true)}
+            />
+          ) : (
+            <span className="transition-transform duration-300 group-hover:scale-[1.02]">NETFLIM</span>
+          )}
         </button>
 
         <nav className="no-scrollbar flex flex-1 items-center gap-5 overflow-x-auto whitespace-nowrap pr-2">

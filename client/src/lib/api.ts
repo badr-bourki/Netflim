@@ -9,6 +9,12 @@ import type { AxiosInstance } from 'axios'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
+const API_BASE = (() => {
+  const raw = String(import.meta.env?.VITE_API_BASE_URL || '').trim()
+  if (!raw) return ''
+  return raw.replace(/\/$/, '')
+})()
+
 const client: AxiosInstance = axios.create({
   baseURL: '/',
   timeout: 10_000,
@@ -43,7 +49,8 @@ type ApiFetchInit =
     }
 
 async function apiFetch<T>(path: string, init: ApiFetchInit): Promise<T> {
-  const url = path.startsWith('/api') ? path : `/api${path.startsWith('/') ? '' : '/'}${path}`
+  const apiPath = path.startsWith('/api') ? path : `/api${path.startsWith('/') ? '' : '/'}${path}`
+  const url = API_BASE ? `${API_BASE}${apiPath}` : apiPath
   const dev = typeof import.meta !== 'undefined' && Boolean(import.meta.env?.DEV)
 
   let lastErr: unknown
@@ -68,10 +75,8 @@ async function apiFetch<T>(path: string, init: ApiFetchInit): Promise<T> {
         })()
 
         if (fallback) {
-          // eslint-disable-next-line no-console
           console.warn('[api]', url, 'fallback', fallbackRoute || '', count != null ? `results=${count}` : '')
         } else if (count != null) {
-          // eslint-disable-next-line no-console
           console.debug('[api]', url, `results=${count}`)
         }
       }
